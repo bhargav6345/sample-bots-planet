@@ -1,100 +1,84 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button } from '@mui/material';
+import { Box, Grid, Paper, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Dashboard.css';
+import { useAuth } from '../context/AuthContext';
 
-const Dashboard = () => {
+const DashboardCard = ({ title, description, icon, link }) => {
   const navigate = useNavigate();
-  const userEmail = localStorage.getItem('userEmail');
-
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userEmail');
-    navigate('/login');
-  };
 
   return (
-    <Box className="dashboard">
-      <Box className="dashboard-header">
-        <Typography variant="h4" className="dashboard-title">
-          Welcome to Your Dashboard
-        </Typography>
-        <Typography variant="subtitle1" className="dashboard-subtitle">
-          {userEmail}
-        </Typography>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleLogout}
-          className="logout-button"
-        >
-          Logout
-        </Button>
-      </Box>
+    <Paper
+      elevation={2}
+      sx={{
+        p: 3,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: 'pointer',
+        '&:hover': {
+          boxShadow: 6,
+        },
+      }}
+      onClick={() => navigate(link)}
+    >
+      <Box sx={{ fontSize: '2.5rem', mb: 2 }}>{icon}</Box>
+      <Typography variant="h6" gutterBottom>
+        {title}
+      </Typography>
+      <Typography color="textSecondary" sx={{ mb: 2 }}>
+        {description}
+      </Typography>
+      <Button
+        variant="outlined"
+        color="primary"
+        sx={{ mt: 'auto' }}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(link);
+        }}
+      >
+        Open
+      </Button>
+    </Paper>
+  );
+};
 
-      <Grid container spacing={4} className="dashboard-grid">
-        <Grid item xs={12} md={6}>
-          <Card className="dashboard-card">
-            <CardContent>
-              <Typography variant="h5" className="card-title">
-                Your Bots
-              </Typography>
-              <Typography variant="body1" className="card-content">
-                Manage your bots and their settings here.
-              </Typography>
-              <Button variant="contained" className="card-button">
-                View Bots
-              </Button>
-            </CardContent>
-          </Card>
+const Dashboard = () => {
+  const { user } = useAuth();
+
+  return (
+    <Box sx={{ p: 3, maxWidth: 1200, mx: 'auto' }}>
+      <Typography variant="h4" gutterBottom>
+        Welcome{user?.organizationName ? `, ${user.organizationName}` : ''}
+      </Typography>
+      <Typography color="textSecondary" sx={{ mb: 4 }}>
+        Select a feature to get started
+      </Typography>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          <DashboardCard
+            title="Product Intelligence"
+            description="Analyze and manage your product information and market insights."
+            icon="📊"
+            link="/product-intelligence"
+          />
         </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Card className="dashboard-card">
-            <CardContent>
-              <Typography variant="h5" className="card-title">
-                Analytics
-              </Typography>
-              <Typography variant="body1" className="card-content">
-                View performance metrics and insights.
-              </Typography>
-              <Button variant="contained" className="card-button">
-                View Analytics
-              </Button>
-            </CardContent>
-          </Card>
+        <Grid item xs={12} md={4}>
+          <DashboardCard
+            title="ChatBot"
+            description="Interact with your AI sales assistant for real-time support."
+            icon="🤖"
+            link="/chatbot"
+          />
         </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Card className="dashboard-card">
-            <CardContent>
-              <Typography variant="h5" className="card-title">
-                Team Members
-              </Typography>
-              <Typography variant="body1" className="card-content">
-                Manage your team and their access.
-              </Typography>
-              <Button variant="contained" className="card-button">
-                Manage Team
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Card className="dashboard-card">
-            <CardContent>
-              <Typography variant="h5" className="card-title">
-                Settings
-              </Typography>
-              <Typography variant="body1" className="card-content">
-                Configure your account and preferences.
-              </Typography>
-              <Button variant="contained" className="card-button">
-                Settings
-              </Button>
-            </CardContent>
-          </Card>
+        <Grid item xs={12} md={4}>
+          <DashboardCard
+            title="Artifacts"
+            description="Access and manage your sales resources and documents."
+            icon="📁"
+            link="/artifacts"
+          />
         </Grid>
       </Grid>
     </Box>

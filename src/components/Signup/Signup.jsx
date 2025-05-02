@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Stepper, Step, StepLabel, Box, Button, Paper } from '@mui/material';
+import { Stepper, Step, StepLabel, Box, Paper } from '@mui/material';
 import Step1RegisterOrg from './steps/Step1RegisterOrg';
 import Step2AdminProfile from './steps/Step2AdminProfile';
 import Step3SelectBots from './steps/Step3SelectBots';
 import Step4Payment from './steps/Step4Payment';
 import Step5AccountOwner from './steps/Step5AccountOwner';
+import Step6Success from './steps/Step6Success';
 
 const steps = [
   'Register Organization',
@@ -12,7 +13,7 @@ const steps = [
   'Select Bots',
   'Payment',
   'Account Owner Setup',
-  // Add more steps as needed
+  'Completing Setup'
 ];
 
 const Signup = () => {
@@ -20,7 +21,8 @@ const Signup = () => {
   const [formData, setFormData] = useState({});
 
   const handleNext = (data) => {
-    setFormData({ ...formData, ...data });
+    const newData = { ...formData, ...data };
+    setFormData(newData);
     setActiveStep((prev) => prev + 1);
   };
 
@@ -40,9 +42,10 @@ const Signup = () => {
         return <Step4Payment onNext={handleNext} onBack={handleBack} data={formData} />;
       case 4:
         return <Step5AccountOwner onNext={handleNext} onBack={handleBack} data={formData} />;
-      // Add more steps here
+      case 5:
+        return <Step6Success data={formData} />;
       default:
-        return <div>All steps completed</div>;
+        return null;
     }
   };
 
@@ -50,8 +53,8 @@ const Signup = () => {
     <Box sx={{ width: '100%', minHeight: '100vh', bgcolor: '#f5f6fa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Paper elevation={3} sx={{ p: 4, minWidth: 400, maxWidth: 500 }}>
         <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
+          {steps.map((label, index) => (
+            <Step key={label} completed={activeStep > index}>
               <StepLabel>{label}</StepLabel>
             </Step>
           ))}

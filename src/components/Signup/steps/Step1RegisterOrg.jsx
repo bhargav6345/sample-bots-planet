@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Checkbox, FormControlLabel, Box, Typography } from '@mui/material';
-
+ 
 const industries = ['Technology', 'Finance', 'Healthcare', 'Education'];
 const companySizes = ['1-10', '11-50', '51-200', '201-1000', '1000+'];
-const countries = ['USA', 'UK', 'India', 'Germany'];
-
+const locations = ['USA', 'UK', 'India', 'Germany'];
+ 
 const Step1RegisterOrg = ({ onNext, data }) => {
   const [form, setForm] = useState({
     orgName: data.orgName || '',
     industry: data.industry || '',
     companySize: data.companySize || '',
-    country: data.country || '',
+    location: data.location || '',
     terms: false,
   });
   const [error, setError] = useState('');
-
+ 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.orgName || !form.industry || !form.companySize || !form.country || !form.terms) {
+    if (!form.orgName || !form.industry || !form.companySize || !form.location || !form.terms) {
       setError('Please fill all fields and agree to the terms.');
       return;
     }
     setError('');
     onNext(form);
   };
-
+ 
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h6" gutterBottom>Register your Organization</Typography>
@@ -72,15 +72,15 @@ const Step1RegisterOrg = ({ onNext, data }) => {
       </TextField>
       <TextField
         select
-        label="Country"
-        name="country"
-        value={form.country}
+        label="Loction"
+        name="location"
+        value={form.location}
         onChange={handleChange}
         fullWidth
         margin="normal"
         required
       >
-        {countries.map((option) => (
+        {locations.map((option) => (
           <MenuItem key={option} value={option}>{option}</MenuItem>
         ))}
       </TextField>
@@ -97,5 +97,5 @@ const Step1RegisterOrg = ({ onNext, data }) => {
     </form>
   );
 };
-
-export default Step1RegisterOrg; 
+ 
+export default Step1RegisterOrg;

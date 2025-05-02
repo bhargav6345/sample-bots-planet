@@ -1,10 +1,13 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Menu, MenuItem } from '@mui/material';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import "../styles/Navbar.css";
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -13,6 +16,11 @@ const Navbar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -25,12 +33,23 @@ const Navbar = () => {
         <Box sx={{ flexGrow: 1 }} />
         
         <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 2 }}>
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/pricing" className="nav-link">Pricing</Link>
-          <Link to="/solutions" className="nav-link">Solutions</Link>
-          <Link to="/contact" className="nav-link">Contact</Link>
-          <Link to="/login" className="nav-link">Login</Link>
-          <Link to="/signup" className="nav-button">Sign Up</Link>
+          {user ? (
+            <>
+              <Link to="/dashboard" className="nav-link">Dashboard</Link>
+              <Link to="/product-intelligence" className="nav-link">Product Intelligence</Link>
+              <Link to="/chatbot" className="nav-link">ChatBot</Link>
+              <Link to="/artifacts" className="nav-link">Artifacts</Link>
+              <button onClick={handleLogout} className="nav-link logout-button">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/pricing" className="nav-link">Pricing</Link>
+              <Link to="/solutions" className="nav-link">Solutions</Link>
+              <Link to="/contact" className="nav-link">Contact</Link>
+              <Link to="/login" className="nav-link">Login</Link>
+              <Link to="/signup" className="nav-button">Sign Up</Link>
+            </>
+          )}
         </Box>
 
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -58,12 +77,23 @@ const Navbar = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem component={Link} to="/" onClick={handleClose}>Home</MenuItem>
-            <MenuItem component={Link} to="/pricing" onClick={handleClose}>Pricing</MenuItem>
-            <MenuItem component={Link} to="/solutions" onClick={handleClose}>Solutions</MenuItem>
-            <MenuItem component={Link} to="/contact" onClick={handleClose}>Contact</MenuItem>
-            <MenuItem component={Link} to="/login" onClick={handleClose}>Login</MenuItem>
-            <MenuItem component={Link} to="/signup" onClick={handleClose}>Sign Up</MenuItem>
+            {user ? (
+              <>
+                <MenuItem component={Link} to="/dashboard" onClick={handleClose}>Dashboard</MenuItem>
+                <MenuItem component={Link} to="/product-intelligence" onClick={handleClose}>Product Intelligence</MenuItem>
+                <MenuItem component={Link} to="/chatbot" onClick={handleClose}>ChatBot</MenuItem>
+                <MenuItem component={Link} to="/artifacts" onClick={handleClose}>Artifacts</MenuItem>
+                <MenuItem component={Link} to="/login" onClick={handleClose}>Logout</MenuItem>
+              </>
+            ) : (
+              <>
+                <MenuItem component={Link} to="/pricing" onClick={handleClose}>Pricing</MenuItem>
+                <MenuItem component={Link} to="/solutions" onClick={handleClose}>Solutions</MenuItem>
+                <MenuItem component={Link} to="/contact" onClick={handleClose}>Contact</MenuItem>
+                <MenuItem component={Link} to="/login" onClick={handleClose}>Login</MenuItem>
+                <MenuItem component={Link} to="/signup" onClick={handleClose}>Sign Up</MenuItem>
+              </>
+            )}
           </Menu>
         </Box>
       </Toolbar>

@@ -1,42 +1,45 @@
 import React, { useState } from "react";
-import { Box, Typography, TextField, Button, Link, Alert, CircularProgress, Paper } from '@mui/material';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Link,
+  Alert,
+  CircularProgress,
+  Paper
+} from '@mui/material';
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [form, setForm] = useState({
-    email: "",
+    identifier: "",  // Changed from 'email' to 'identifier'
     password: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [captchaValue, setCaptchaValue] = useState(null);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [resetEmail, setResetEmail] = useState("");
+  const [resetIdentifier, setResetIdentifier] = useState("");  // Changed for consistency
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
-    if (!form.email || !form.password) {
+    if (!form.identifier || !form.password) {
       setError("Please fill in all fields.");
-      return;
-    }
-
-    if (!validateEmail(form.email)) {
-      setError("Please enter a valid email address.");
       return;
     }
 
@@ -47,24 +50,14 @@ const Login = () => {
 
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Check if email matches signup email (this would be replaced with actual API call)
-      const signupEmail = localStorage.getItem('signupEmail');
-      if (signupEmail && signupEmail !== form.email) {
-        setError("This email is not registered. Please use the email you signed up with.");
-        return;
-      }
+      const userData = {
+        identifier: form.identifier,
+      };
 
-      // Store user info in localStorage (in a real app, this would be handled by your auth system)
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userEmail', form.email);
-
-      // Redirect to dashboard
+      login(userData);
       navigate('/dashboard');
     } catch (err) {
-      setError("Login failed. Please try again.");
+      setError("Failed to log in. Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -74,13 +67,8 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    if (!resetEmail) {
-      setError("Please enter your email address.");
-      return;
-    }
-
-    if (!validateEmail(resetEmail)) {
-      setError("Please enter a valid email address.");
+    if (!resetIdentifier) {
+      setError("Please enter your Email or User ID.");
       return;
     }
 
@@ -88,9 +76,9 @@ const Login = () => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      alert("Password reset instructions sent to your email! (Demo)");
+      alert("Password reset instructions sent! (Demo)");
       setShowForgotPassword(false);
-      setResetEmail("");
+      setResetIdentifier("");
     } catch (err) {
       setError("Failed to send reset instructions. Please try again.");
     } finally {
@@ -109,12 +97,11 @@ const Login = () => {
             <Typography variant="subtitle1" className="login-subtitle">
               Sign in to continue to Bots Planet
             </Typography>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSubmit}>
               <TextField
-                label="Email Address"
-                type="email"
-                name="email"
-                value={form.email}
+                label="Email Address or User ID"
+                name="identifier"
+                value={form.identifier}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
@@ -174,14 +161,13 @@ const Login = () => {
               Reset Password
             </Typography>
             <Typography variant="subtitle1" className="login-subtitle">
-              Enter your email to receive reset instructions
+              Enter your Email or User ID to receive reset instructions
             </Typography>
             <form onSubmit={handleForgotPassword}>
               <TextField
-                label="Email Address"
-                type="email"
-                value={resetEmail}
-                onChange={(e) => setResetEmail(e.target.value)}
+                label="Email Address or User ID"
+                value={resetIdentifier}
+                onChange={(e) => setResetIdentifier(e.target.value)}
                 fullWidth
                 margin="normal"
                 required

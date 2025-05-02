@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Alert } from '@mui/material';
-
+ 
 const Step2AdminProfile = ({ onNext, onBack, data }) => {
   const [form, setForm] = useState({
     adminName: data.adminName || '',
@@ -10,42 +10,42 @@ const Step2AdminProfile = ({ onNext, onBack, data }) => {
     confirmPassword: data.confirmPassword || '',
   });
   const [error, setError] = useState('');
-
+ 
   const validatePassword = (password) => {
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const hasNumber = /\d/.test(password);
     const hasCapital = /[A-Z]/.test(password);
     const hasMinLength = password.length >= 8;
-    
+   
     return hasSpecialChar && hasNumber && hasCapital && hasMinLength;
   };
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.adminName || !form.role || !form.corporateEmail || !form.password || !form.confirmPassword) {
       setError('Please fill all fields.');
       return;
     }
-
+ 
     if (!validatePassword(form.password)) {
       setError('Password must contain at least one special character, one number, one capital letter, and be at least 8 characters long.');
       return;
     }
-
+ 
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
-
+ 
     setError('');
     onNext(form);
   };
-
+ 
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h6" gutterBottom>Admin Profile Setup</Typography>
@@ -110,5 +110,5 @@ const Step2AdminProfile = ({ onNext, onBack, data }) => {
     </form>
   );
 };
-
-export default Step2AdminProfile; 
+ 
+export default Step2AdminProfile;
