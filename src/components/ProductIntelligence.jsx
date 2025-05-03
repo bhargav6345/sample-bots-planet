@@ -8,26 +8,26 @@ const ProductIntelligence = () => {
 
   const handleSubmitOverview = (e) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
     console.log('Product Overview:', productOverview);
   };
 
   const handleSubmitProfile = (e) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
     console.log('Customer Profile:', customerProfile);
   };
 
+  // ✅ Correct placement of file upload handler
   const handleFileUpload = (e, type) => {
-    const file = e.target.files[0];
-    // Here you would typically handle file upload
-    console.log(`Uploading ${type}:`, file);
+    const files = Array.from(e.target.files);
+    console.log(`Uploading ${type} files:`, files);
+    files.forEach((file, index) => {
+      console.log(`File ${index + 1}:`, file.name);
+    });
   };
 
   const handleUrlSubmit = (e) => {
     e.preventDefault();
     const url = e.target.url.value;
-    // Here you would typically handle URL processing
     console.log('Processing URL:', url);
   };
 
@@ -71,6 +71,7 @@ const ProductIntelligence = () => {
           <div className="upload-section">
             <input
               type="file"
+              multiple
               onChange={(e) => handleFileUpload(e, 'overview')}
               accept=".pdf,.doc,.docx,.txt"
             />
@@ -103,6 +104,7 @@ const ProductIntelligence = () => {
             <h3>Upload Document</h3>
             <input
               type="file"
+              multiple
               onChange={(e) => handleFileUpload(e, 'profile')}
               accept=".pdf,.doc,.docx,.txt"
             />
@@ -113,4 +115,4 @@ const ProductIntelligence = () => {
   );
 };
 
-export default ProductIntelligence; 
+export default ProductIntelligence;

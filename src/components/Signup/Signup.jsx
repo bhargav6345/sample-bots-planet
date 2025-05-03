@@ -3,16 +3,16 @@ import { Stepper, Step, StepLabel, Box, Paper } from '@mui/material';
 import Step1RegisterOrg from './steps/Step1RegisterOrg';
 import Step2AdminProfile from './steps/Step2AdminProfile';
 import Step3SelectBots from './steps/Step3SelectBots';
+import Step4Preview from './steps/Step4Preview';
 import Step4Payment from './steps/Step4Payment';
-import Step5AccountOwner from './steps/Step5AccountOwner';
 import Step6Success from './steps/Step6Success';
 
 const steps = [
   'Register Organization',
   'Admin Profile',
   'Select Bots',
+  'Preview',
   'Payment',
-  'Account Owner Setup',
   'Completing Setup'
 ];
 
@@ -39,9 +39,9 @@ const Signup = () => {
       case 2:
         return <Step3SelectBots onNext={handleNext} onBack={handleBack} data={formData} />;
       case 3:
-        return <Step4Payment onNext={handleNext} onBack={handleBack} data={formData} />;
+        return <Step4Preview onNext={handleNext} onBack={handleBack} data={formData} />;
       case 4:
-        return <Step5AccountOwner onNext={handleNext} onBack={handleBack} data={formData} />;
+        return <Step4Payment onNext={handleNext} onBack={handleBack} data={formData} />;
       case 5:
         return <Step6Success data={formData} />;
       default:
