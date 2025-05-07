@@ -72,7 +72,7 @@ const Step1RegisterOrg = ({ onNext, data }) => {
       </TextField>
       <TextField
         select
-        label="Loction"
+        label="Location"
         name="location"
         value={form.location}
         onChange={handleChange}
