@@ -36,9 +36,6 @@ const Navbar = () => {
           {user ? (
             <>
               <Link to="/dashboard" className="nav-link">Dashboard</Link>
-              <Link to="/product-intelligence" className="nav-link">Product Intelligence</Link>
-              <Link to="/chatbot" className="nav-link">ChatBot</Link>
-              <Link to="/artifacts" className="nav-link">Artifacts</Link>
               <button onClick={handleLogout} className="nav-link logout-button">Logout</button>
             </>
           ) : (
@@ -80,9 +77,6 @@ const Navbar = () => {
             {user ? (
               <>
                 <MenuItem component={Link} to="/dashboard" onClick={handleClose}>Dashboard</MenuItem>
-                <MenuItem component={Link} to="/product-intelligence" onClick={handleClose}>Product Intelligence</MenuItem>
-                <MenuItem component={Link} to="/chatbot" onClick={handleClose}>ChatBot</MenuItem>
-                <MenuItem component={Link} to="/artifacts" onClick={handleClose}>Artifacts</MenuItem>
                 <MenuItem component={Link} to="/login" onClick={handleClose}>Logout</MenuItem>
               </>
             ) : (

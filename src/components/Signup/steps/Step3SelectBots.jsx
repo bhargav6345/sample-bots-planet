@@ -63,6 +63,14 @@ const Step3SelectBots = ({ onNext, onBack, data }) => {
       return;
     }
     setError('');
+    
+    // Save selected bots data to localStorage
+    const selectedBotsData = {
+      selectedBots: selected,
+      botQuantities: quantities
+    };
+    localStorage.setItem('selectedBotsData', JSON.stringify(selectedBotsData));
+    
     onNext({ selectedBots: selected, botQuantities: quantities });
   };
  
