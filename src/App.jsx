@@ -8,11 +8,16 @@ import Signup from "./components/Signup/Signup";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Contact from "./components/Contact";
-import ProductIntelligence from "./components/ProductIntelligence";
-import ChatBot from "./components/ChatBot";
-import Artifacts from "./components/Artifacts";
+import UserLanding from "./components/UserLanding";
 import { AuthProvider } from "./context/AuthContext";
 import { useAuth } from "./context/AuthContext";
+import CustomerSegment from './components/UserLandingPages/CustomerSegment';
+import ProductInformation from './components/UserLandingPages/ProductInformation';
+import BuyerProfile from './components/UserLandingPages/BuyerProfile';
+import PotentialCustomers from './components/UserLandingPages/PotentialCustomers';
+import PotentialBuyers from './components/UserLandingPages/PotentialBuyers';
+import ConversationTemplates from './components/UserLandingPages/ConversationTemplates';
+import ScheduleAppointments from './components/UserLandingPages/ScheduleAppointments';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -39,30 +44,10 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/product-intelligence"
-            element={
-              <PrivateRoute>
-                <ProductIntelligence />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/chatbot"
-            element={
-              <PrivateRoute>
-                <ChatBot />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/artifacts"
-            element={
-              <PrivateRoute>
-                <Artifacts />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/userlanding" element={<UserLanding />}>
+            <Route index element={<Navigate to="customer-segment" replace />} />
+            <Route path=":section" element={<UserLanding />} />
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>
