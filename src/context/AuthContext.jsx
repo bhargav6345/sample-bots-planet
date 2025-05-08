@@ -15,10 +15,20 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('isLoggedIn', 'true');
+  const login = async (email, password) => {
+    const foundUser = await axios.post('http://localhost:5000/api/auth/login', {
+      email,
+      password
+    })
+    
+    if (!foundUser) {
+      throw new Error('Invalid credentials');
+    }
+
+    console.log(foundUser);
+    
+    setUser(foundUser);
+    localStorage.setItem('user', JSON.stringify(foundUser));
   };
 
   const logout = () => {

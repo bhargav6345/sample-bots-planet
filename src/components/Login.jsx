@@ -50,11 +50,7 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const userData = {
-        identifier: form.identifier,
-      };
-
-      login(userData);
+      login(form.identifier, form.password);
       navigate('/dashboard');
     } catch (err) {
       setError("Failed to log in. Please check your credentials.");
