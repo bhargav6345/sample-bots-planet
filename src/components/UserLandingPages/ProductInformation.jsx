@@ -53,9 +53,9 @@ const categories = [
   'Other'
 ];
 
-const statuses = ['Active', 'Deprecated', 'Coming Soon', 'Beta', 'Maintenance'];
+const statuses = ['Active', 'Coming Soon', 'Beta', 'Maintenance'];
 const pricingModels = ['Flat', 'Tiered', 'Usage-based', 'Freemium', 'Custom'];
-const deploymentTypes = ['Cloud', 'On-Premise', 'Hybrid', 'SaaS', 'PaaS', 'IaaS'];
+
 const supportLevels = ['Basic', 'Standard', 'Premium', 'Enterprise', 'Custom'];
 
 const ProductInformation = () => {
@@ -73,7 +73,7 @@ const ProductInformation = () => {
     version: '',
     status: 'Active',
     pricingModel: 'Flat',
-    deploymentType: 'Cloud',
+    
     supportLevel: 'Standard',
     documents: [],
     urls: [],
@@ -138,7 +138,7 @@ const ProductInformation = () => {
       version: '',
       status: 'Active',
       pricingModel: 'Flat',
-      deploymentType: 'Cloud',
+      
       supportLevel: 'Standard',
       documents: [],
       urls: [],
@@ -169,7 +169,7 @@ const ProductInformation = () => {
         version: '',
         status: 'Active',
         pricingModel: 'Flat',
-        deploymentType: 'Cloud',
+       
         supportLevel: 'Standard',
         documents: [],
         urls: [],
@@ -268,21 +268,7 @@ const ProductInformation = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={2}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel shrink>Deployment Type</InputLabel>
-            <Select
-              value={form.deploymentType}
-              onChange={e => handleChange('deploymentType', e.target.value)}
-              label="Deployment Type"
-              displayEmpty
-            >
-              {deploymentTypes.map((type) => (
-                <MenuItem key={type} value={type}>{type}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
+        
         <Grid item xs={12} md={2}>
           <FormControl fullWidth variant="outlined">
             <InputLabel shrink>Support Level</InputLabel>
@@ -378,7 +364,7 @@ const ProductInformation = () => {
             version: '',
             status: 'Active',
             pricingModel: 'Flat',
-            deploymentType: 'Cloud',
+           
             supportLevel: 'Standard',
             documents: [],
             urls: [],
@@ -410,7 +396,7 @@ const ProductInformation = () => {
                 </Grid>
                 <Grid item xs={12} md={3}>
                   <Typography variant="body2">Pricing: {product.pricingModel}</Typography>
-                  <Typography variant="body2">Deployment: {product.deploymentType}</Typography>
+                  
                   <Typography variant="body2">Support: {product.supportLevel}</Typography>
                 </Grid>
                 <Grid item xs={12} md={3}>
